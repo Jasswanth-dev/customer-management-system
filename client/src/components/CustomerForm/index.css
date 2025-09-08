@@ -1,0 +1,35 @@
+.form-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+
+form{
+    width: 100%;
+    max-width: 760px;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+form div{
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+input{
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid silver;
+}
+
+
+.form-btn-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+}

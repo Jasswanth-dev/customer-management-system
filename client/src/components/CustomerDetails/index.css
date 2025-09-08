@@ -1,0 +1,12 @@
+.user-details-table{
+    width: 300px;
+}
+
+.user-details-table tbody tr td {
+    text-align: left !important;
+}
+
+.user-details-table tbody tr th {
+    text-align: left !important;
+}
+

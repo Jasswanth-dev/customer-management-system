@@ -1,0 +1,11 @@
+{
+  "name": "customer-management-app",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server/index.js",
+    "server": "node server/index.js",
+    "client": "npm start --prefix client",
+    "client-build": "npm run build --prefix client",
+    "build": "npm run client-build"
+  }
+}
