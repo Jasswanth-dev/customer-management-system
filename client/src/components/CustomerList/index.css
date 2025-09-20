@@ -19,7 +19,12 @@
 table{
   border-collapse: collapse;
   width: 100%;
+  border: 1px solid #ddd;
 }
+table th{
+  background-color: #ddd;
+}
+
 table tr td{
   text-align: center;
 }
@@ -107,4 +112,13 @@ table tr td{
 .pagination input{
   padding: 5px;
   border-radius: 5px;
+}
+
+.customer-row{
+  border-bottom: 1px solid #ddd;
+}
+
+.customer-row:hover {
+  background-color: #f1f1f1;
+  cursor: pointer;
 }

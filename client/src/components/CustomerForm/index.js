@@ -19,9 +19,9 @@ const CustomerForm = () => {
 
   const [apiStatus, setApiStatus] = useState(apiConstantInitialStatus.initial)
   const [customerData, setCustomerData] = useState({
-    firstName: "",
-    lastName: "",
-    phoneNumber: ""
+    first_name: "",
+    last_name: "",
+    phone_number: ""
   });
 
   useEffect(() => {
@@ -29,13 +29,7 @@ const CustomerForm = () => {
       setApiStatus(apiConstantInitialStatus.inprogress)
       API.get(`/api/customers/${id}`)
       .then(response => {
-          const customer = response.data.data
-          const existingCustomerData = {
-              firstName: customer.first_name,
-              lastName: customer.last_name,
-              phoneNumber: customer.phone_number
-          }
-          setCustomerData(existingCustomerData)
+          setCustomerData(response.data.data)
           setApiStatus(apiConstantInitialStatus.success)
       })
       .catch(error => {
@@ -51,15 +45,17 @@ const CustomerForm = () => {
     setCustomerData({ ...customerData, [e.target.name]: e.target.value });
   };
 
+  const handleMobileInput = (e) => {
+    if (e.target.value.length <= 10 && !isNaN(e.target.value)) {
+      setCustomerData({ ...customerData, [e.target.name]: e.target.value });
+    }
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (id !== undefined && customerData.firstName !== "" && customerData.lastName !== "" && customerData.phoneNumber !== "") {
+    if (id !== undefined && customerData.first_name !== "" && customerData.last_name !== "" && customerData.phone_number !== "") {
       setApiStatus(apiConstantInitialStatus.inprogress)
-      API.put(`/api/customers/${id}`, {
-            first_name: customerData.firstName,
-            last_name: customerData.lastName,
-            phone_number: customerData.phoneNumber,
-        })
+      API.put(`/api/customers/${id}`, customerData)
         .then(response => {
             notifySuccess(response.data.message);
         })
@@ -67,11 +63,11 @@ const CustomerForm = () => {
             notifyError('Customer Details Not Updated')
             console.error(error);
         });
-    } else if (customerData.firstName !== "" && customerData.lastName !== "" && customerData.phoneNumber !== "") {
+    } else if (customerData.first_name !== "" && customerData.last_name !== "" && customerData.phone_number !== "") {
       API.post(`/api/customers`, {
-            first_name: customerData.firstName,
-            last_name: customerData.lastName,
-            phone_number: customerData.phoneNumber,
+            first_name: customerData.first_name,
+            last_name: customerData.last_name,
+            phone_number: customerData.phone_number,
         })
         .then(response => {
           console.error(response)
@@ -97,8 +93,8 @@ const CustomerForm = () => {
               <label>First Name: </label>
               <input
                 type="text"
-                name="firstName"
-                value={customerData.firstName}
+                name="first_name"
+                value={customerData.first_name}
                 onChange={handleChange}
                 required
               />
@@ -108,8 +104,8 @@ const CustomerForm = () => {
               <label>Last Name: </label>
               <input
                 type="text"
-                name="lastName"
-                value={customerData.lastName}
+                name="last_name"
+                value={customerData.last_name}
                 onChange={handleChange}
                 required
               />
@@ -119,9 +115,9 @@ const CustomerForm = () => {
               <label>Mobile Number </label>
               <input
                 type="text"
-                name="phoneNumber"
-                value={customerData.phoneNumber}
-                onChange={handleChange}
+                name="phone_number"
+                value={customerData.phone_number}
+                onChange={handleMobileInput}
                 required
               />
             </div>

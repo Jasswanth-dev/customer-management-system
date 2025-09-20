@@ -48,6 +48,12 @@ const AddressForm = (props) => {
     setAddress({ ...address, [e.target.name]: e.target.value });
   };
 
+  const handlePinCodeChange = (e) => {
+    if (!isNaN(e.target.value)) {
+      setAddress({ ...address, [e.target.name]: e.target.value });
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (id !== undefined && address.address_details !== "" && address.city !== "" && address.state !== "" && address.pin_code !== "") {
@@ -129,7 +135,7 @@ const AddressForm = (props) => {
                 type="text"
                 name="pin_code"
                 value={address.pin_code}
-                onChange={handleChange}
+                onChange={handlePinCodeChange}
                 required
               />
             </div>

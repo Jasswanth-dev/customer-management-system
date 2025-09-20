@@ -1,6 +1,7 @@
 # Node
 node_modules/
 npm-debug.log
+server/app.http
 
 # React build
 client/build/
