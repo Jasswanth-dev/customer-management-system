@@ -7,7 +7,9 @@ const Header = () => (
                 Customer Management System
         </Link>
         <nav>
-            <Link to="/" className='header-link'><button type='button'>Home</button></Link>
+            <Link to="/" className='header-link'>
+                <button type='button'>Home</button>
+            </Link>
         </nav>
     </header>
 )

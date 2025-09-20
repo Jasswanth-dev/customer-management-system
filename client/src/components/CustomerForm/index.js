@@ -58,9 +58,10 @@ const CustomerForm = () => {
       API.put(`/api/customers/${id}`, customerData)
         .then(response => {
             notifySuccess(response.data.message);
+            navigate('/',{replace: true})
         })
         .catch(error => {
-            notifyError('Customer Details Not Updated')
+            notifyError(error.response.data.error_message || 'Customer Not Updated');
             console.error(error);
         });
     } else if (customerData.first_name !== "" && customerData.last_name !== "" && customerData.phone_number !== "") {
@@ -70,15 +71,15 @@ const CustomerForm = () => {
             phone_number: customerData.phone_number,
         })
         .then(response => {
-          console.error(response)
           notifySuccess(response.data.message);
+          navigate('/',{replace: true})
         })
         .catch(error => {
-          notifyError('Customer Not Created');
+          notifyError(error.response.data.error_message || 'Customer Not Created');
           console.error(error);
         });
     }
-    navigate('/',{replace: true})
+    setApiStatus(apiConstantInitialStatus.success)
   };
 
   return (
@@ -124,7 +125,7 @@ const CustomerForm = () => {
             <br/>
 
             <div className="form-btn-container">
-              <button type="button" className="btn btn-red">Cancel</button>
+              <button type="button" className="btn btn-red" onClick={() => navigate(-1)}>Cancel</button>
               <button type="submit" className="btn btn-green">{id ? "Update" : "Create"}</button>
             </div>
           </form>

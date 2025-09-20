@@ -8,7 +8,13 @@ header{
 
 .header-link {
     text-decoration: none;
-    font-size: 18px;
+    font-size: 8px;
     color: black;
     font-weight: bold;
+}
+
+@media (min-width: 768px) {
+    .header-link {
+        font-size: 18px;
+    }
 }

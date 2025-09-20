@@ -13,3 +13,59 @@
 .no-addresses{
     text-align: center;
 }
+
+
+.modal {
+  font-size: 18px;
+  background-color: white;
+  box-shadow: 0 10px 16px 0;
+  padding: 10px;
+  border-radius: 10px;
+}
+.modal > .header {
+  width: 100%;
+  border-bottom: 1px solid gray;
+  font-size: 14px;
+  text-align: center;
+  padding: 5px;
+}
+.modal > .content {
+  width: 100%;
+  padding: 10px 5px;
+  font-size: 14px;
+}
+.modal > .actions {
+  width: 100%;
+  padding: 10px 5px;
+  margin: auto;
+  text-align: center;
+}
+.modal > .close {
+  cursor: pointer;
+  position: absolute;
+  display: block;
+  padding: 2px 5px;
+  line-height: 20px;
+  right: -10px;
+  top: -10px;
+  font-size: 14px;
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #cfcece;
+}
+
+.sub-heading{
+  font-weight: bold;
+}
+
+.modal-btn{
+  padding: 10px;
+  margin: 20px;
+}
+
+.addresses-list{
+  list-style-type: none;
+  padding: 0;
+  border: 1px solid #ddd;
+  padding: 10px;
+}

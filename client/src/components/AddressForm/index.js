@@ -85,7 +85,7 @@ const AddressForm = (props) => {
         {apiStatus === apiConstantInitialStatus.inprogress && <Loader/>}
         {apiStatus === apiConstantInitialStatus.success &&
           <form onSubmit={handleSubmit}>
-            <h1 className="main-heading">Add a New Address</h1>
+            <h1 className="main-heading">{!id ? "Add a New Address" : "Update Address"}</h1>
             <div>
               <label>Customer ID: </label>
               <input
@@ -141,7 +141,7 @@ const AddressForm = (props) => {
             </div>
 
             <div className="form-btn-container">
-              <button type="button" className="btn btn-red">Cancel</button>
+              <button type="button" className="btn btn-red" onClick={() => navigate(-1)}>Cancel</button>
               <button type="submit" className="btn btn-green">{id ? "Update" : "Create"}</button>
             </div>
           </form>

@@ -62,6 +62,19 @@ const CustomerDetails = () => {
         close();
     }
 
+    const onDeleteCustomer = (id, close) => {
+        API.delete(`/api/customers/${id}`)
+            .then(res => {
+                notifySuccess(res.data.message);
+                navigate("/", {replace: true});
+            })
+            .catch(error => {
+                notifyError('Failed to Delete Customer')
+                console.error('There was an error deleting the customer!', error);
+            });
+        close();
+    }
+
     return (
         <div className='bg-container'>
             <Header/>
@@ -90,35 +103,59 @@ const CustomerDetails = () => {
                             </tr>
                         </tbody>
                     </table>
-                    <Link to={`/customer/${id}/address/new`}>
-                        <button type="button" className='btn'>
-                            Add New Address
-                        </button>
-                    </Link>
+                    <div>
+                        <Link to={`/customer/${customer.id}`}>
+                            <button type='button' className='btn btn-green'>Edit</button>
+                        </Link>
+                        <Popup
+                            trigger={<button className="btn btn-red"> Delete </button>}
+                            modal
+                        >
+                            {close => (
+                                <div className="modal">
+                                    <div className="header"> Are you sure you want to delete the Customer </div>
+                                    <div className="content">
+                                        <span className='sub-heading'>Customer ID:</span> {`${customer.id}`},<br/>
+                                        <span className='sub-heading'>First Name:</span> {`${customer.first_name}`},<br/>
+                                        <span className='sub-heading'>Last Name:</span> {`${customer.last_name}`},<br/>
+                                        <span className='sub-heading'>Phone Number:</span> {`${customer.phone_number}`},
+                                    </div>
+                                    <div className="actions">
+                                        <button type='button' className='modal-btn btn btn-red' onClick={ () => onDeleteCustomer(customer.id,close)}>
+                                            Delete
+                                        </button>
+                                        <button
+                                            type='button'
+                                            className="modal-btn btn"
+                                            onClick={close}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </Popup>
+                    </div>
+                    <div>
+                        <Link to={`/customer/${id}/address/new`}>
+                            <button type="button" className='btn'>
+                                Add New Address
+                            </button>
+                        </Link>
+                    </div>
                     
-                    {addresses.length === 0 ? <p className='no-addresses'>No Addresses Found</p> :
+                    
+                    {addresses.length === 0 ? <p className='no-addresses'>No Addresses Available</p> :
                         <>
                             <h2>Addresses:</h2>
-                            <table border="1" cellPadding="10">
-                                <thead>
-                                    <tr>
-                                        <th>Address ID</th>
-                                        <th>Address</th>
-                                        <th>City</th>
-                                        <th>State</th>
-                                        <th>Pincode</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
+                            <ul className='addresses-list'>
                                     {addresses.map(address => (
-                                        <tr key={address.id}>
-                                            <td>{address.id}</td>
-                                            <td>{address.address_details}</td>
-                                            <td>{address.city}</td>
-                                            <td>{address.state}</td>
-                                            <td>{address.pin_code}</td>
-                                            <td>
+                                        <li key={address.id}>
+                                            <p>
+                                                Customer Id: {address.customer_id},<br/>
+                                                Address Id: {address.id},<br/>
+                                            {address.address_details}, {address.city}, {address.state}, pincode - {address.pin_code}</p>
+                                            <div>
                                                 <Link to={`/customer/${address.customer_id}/address/${address.id}`}>
                                                     <button type='button' className='btn btn-green'>Edit</button>
                                                 </Link>  
@@ -151,11 +188,11 @@ const CustomerDetails = () => {
                                                         </div>
                                                     )}
                                                 </Popup>
-                                            </td>
-                                        </tr>
+                                            </div>
+                                        </li>
                                     ))}
-                                </tbody>
-                            </table>
+                    
+                            </ul>
                         </>
                     }
                 </>
