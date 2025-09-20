@@ -114,11 +114,24 @@ table tr td{
   border-radius: 5px;
 }
 
-.customer-row{
-  border-bottom: 1px solid #ddd;
+.pagination-controls {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
-.customer-row:hover {
-  background-color: #f1f1f1;
+.pagination-controls button {
+  padding: 5px 10px;
   cursor: pointer;
+}
+
+.pagination-controls select {
+  margin-left: 5px;
+  padding: 5px;
+}
+
+.clear-btn{
+  margin-left: 10px;
 }

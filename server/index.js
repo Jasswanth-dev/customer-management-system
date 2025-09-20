@@ -44,30 +44,56 @@ app.get('/api/customers/:id', (req, res) => {
 
 // Gets List all customers with search, sort, pagination
 app.get('/api/customers', (req, res) => {
-    let { search, sortBy, order} = req.query;
+    let { search, sortBy, order, limit, page } = req.query;
 
     search = search ? `%${search}%` : "%";
     sortBy = sortBy || "id";
     order = (order && order.toUpperCase() === "DESC") ? "DESC" : "ASC";
+    limit = parseInt(limit) || 10;
+    page = parseInt(page) || 1;
+    const offset = (page - 1) * limit;
 
-    const sql = `SELECT * FROM customers 
-    WHERE first_name LIKE ? OR last_name LIKE ? OR phone_number LIKE ? OR id = ?
-    ORDER BY ${sortBy} ${order}`;
+    // SQL for filtering
+    const filterSql = `WHERE first_name LIKE ? OR last_name LIKE ? OR phone_number LIKE ? OR id = ?`;
     const params = [search, search, search, search];
 
-    db.all(sql, params, (err, rows) => {
+    // Query for data with pagination
+    const dataSql = `SELECT * FROM customers ${filterSql} ORDER BY ${sortBy} ${order} LIMIT ? OFFSET ?`;
+
+    // Query for total count (without limit/offset)
+    const countSql = `SELECT COUNT(*) AS total FROM customers ${filterSql}`;
+
+    // Run both queries
+    db.get(countSql, params, (err, countRow) => {
         if (err) {
             res.status(400).json({ "error_message": err.message });
             return;
         }
-        
-        res.json({ 
-            "message": "success", 
-            "data": rows || []
+
+        db.all(dataSql, [...params, limit, offset], (err, rows) => {
+            if (err) {
+                res.status(400).json({ "error_message": err.message });
+                return;
+            }
+
+            const total = countRow.total;
+            const totalPages = Math.ceil(total / limit);
+
+            res.json({
+                "message": "success",
+                "data": rows || [],
+                "pagination": {
+                    totalCutomers: total,
+                    totalPages,
+                    page,
+                    limit
+                }
+            });
         });
-        
     });
 });
+
+
 
 
 // Creates a new customer
