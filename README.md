@@ -32,7 +32,7 @@ cd employee-management-system
 # 2) Backend
 cd backend
 npm install
-node app.js
+node index.js
 
 # 3) Frontend (new terminal)
 cd frontend
